@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'product',
     'ckeditor',
     'ckeditor_uploader',
-    'cart',
+   
     'buyer',
+    'my_cart',
    
    
 ]
