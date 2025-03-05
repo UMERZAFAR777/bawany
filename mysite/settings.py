@@ -10,8 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os 
-import django_heroku
-import dj_database_url
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -88,12 +87,19 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Agar Heroku automatic DB configuration kar raha hai, to usko ignore karne ke liye:
+DATABASES['default'].update(dj_database_url.config(default='sqlite:///db.sqlite3'))
 
 
 # Password validation
@@ -151,7 +157,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')  # Fix: Ensuring correct path
 ]
 
-django_heroku.settings(locals())
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / 'media'
