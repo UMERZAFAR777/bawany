@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <main>
+        <!-- page-banner-area-start -->
+        <div class="page-banner-area page-banner-height-2" data-background="{% static '/assets/img/banner/page-banner-4.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-banner-content text-center">
+                            <h4 class="breadcrumb-title">Wishlist</h4>
+                            <div class="breadcrumb-two">
+                                <nav>
+                                   <nav class="breadcrumb-trail breadcrumbs">
+                                      <ul class="breadcrumb-menu">
+                                         <li class="breadcrumb-trail">
+                                            <a href="{% url 'index' %}"><span>Home</span></a>
+                                         </li>
+                                         <li class="trail-item">
+                                            <span>Wishlist</span>
+                                         </li>
+                                      </ul>
+                                   </nav> 
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page-banner-area-end -->
+
+        <!-- cart-area-start -->
+        <section class="cart-area pb-120 pt-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="">
+                            <div class="table-content table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-thumbnail">Images</th>
+                                            <th class="cart-product-name">Product</th>
+                                            <th class="product-price">Unit Price</th>
+                                            <th class="product-quantity">Go For</th>
+                                            
+                                            <th class="product-remove">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in products %}
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="{{ product.get_absolute_url }}"><img src="{{ product.img }}" alt=""></a></td>
+                                            <td class="product-name"><a href="{{ product.get_absolute_url }}">{{ product.product_name | slice:"50" }}</a></td>
+                                            <td class="product-price"><span class="amount">Rs {{ product.original_price }}</span></td>
+                                            <td class="product-quantity">
+                                                {% if product.availability == 'In Stock' %}
+                                                    <a href="{% url 'cart_add' product.id %}" class="tp-btn-h1" type="submit">Add To Cart</a>
+                                                {% else %}
+                                                    <button class="tp-btn-h1" disabled>Out of Stock</button>
+                                                {% endif %}
+                                            </td>
+                                            
+                                           
+                                            <td class="product-remove"><a href="{% url 'remove_from_wishlist' product.id %}"><i class="fa fa-times"></i></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                      <div class="coupon-all">
+                                        
+                                         <div class="coupon2">
+                                            <a href="{% url 'clear_wishlist' %}" class="tp-btn-h1" name="update_cart" type="submit">Clear cart</a>
+                                         </div>
+                                      </div>
+                                </div>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <!-- cart-area-end -->
+
+       
+
+    </main>
+
+{% endblock %}

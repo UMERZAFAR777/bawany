@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block content %}
+    <main>
+        <!-- page-banner-area-start -->
+        <div class="page-banner-area page-banner-height-2" data-background="{% static '/assets/img/banner/page-banner-4.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-banner-content text-center">
+                            <h4 class="breadcrumb-title">Your Cart</h4>
+                            <div class="breadcrumb-two">
+                                <nav>
+                                   <nav class="breadcrumb-trail breadcrumbs">
+                                      <ul class="breadcrumb-menu">
+                                         <li class="breadcrumb-trail">
+                                            <a href="{% url 'index' %}"><span>Home</span></a>
+                                         </li>
+                                         <li class="trail-item">
+                                            <span>Cart</span>
+                                         </li>
+                                      </ul>
+                                   </nav> 
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page-banner-area-end -->
+
+        <!-- cart-area-start -->
+        <section class="cart-area pt-120 pb-120">
+            <div class="container">
+               <div class="row">
+                  <div class="col-12">
+                        <form action="#">
+                           <div class="table-content table-responsive">
+                              <table class="table">
+                                    <thead>
+                                       <tr>
+                                          <th class="product-thumbnail">Images</th>
+                                          <th class="cart-product-name">Product</th>
+                                          <th class="product-price">Unit Price</th>
+                                          <th class="product-quantity">Quantity</th>
+                                          <th class="product-subtotal">Total</th>
+                                          <th class="product-remove">Remove</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key,value in request.session.cart.items %}
+                                       <tr id="id{{value.id}}">
+                                          <td class="product-thumbnail"><a href="shop-details.html"><img style="height: 85px;" width="85px" src="{{value.img}}" alt=""></a></td>
+                                          <td class="product-name"><a href="shop-details.html">{{ value.product_name | slice:":90" }}</a></td>
+                                          <td class="product-price"><span class="amount">Rs {{value.original_price}}</span></td>
+                                          <td class="product-quantity">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <a href="{% url 'item_decrement' value.product_id %}#id{{value.id}}" class="btn btn-outline-danger px-3">−</a>
+                                                <input type="text" class="form-control text-center" value="{{value.quantity}}" readonly style="width: 50px;">
+                                                <a href="{% url 'item_increment' value.product_id %}#id{{value.id}}" class="btn btn-outline-success px-3">+</a>
+                                            </div>
+                                        </td>
+                                        
+                                          <td class="product-subtotal"><span class="amount">{{ value.original_price|multiply:value.quantity }}</span></td>
+                                          <td class="product-remove"><a href="{% url 'item_clear' key %}#id{{value.id}}"><i class="fa fa-times"></i></a></td>
+                                       </tr>
+                                      {% endfor %}
+                                    </tbody>
+                              </table>
+                           </div>
+                           <div class="row">
+                              <div class="col-12">
+                                    <div class="coupon-all">
+                                      
+                                       <div class="coupon2">
+                                          <a href="{% url 'cart_clear' %}#id{{value.id}}" class="tp-btn-h1" name="update_cart" type="submit">Clear cart</a>
+                                       </div>
+                                    </div>
+                              </div>
+                           </div>
+                           <div class="row justify-content-end">
+                              <div class="col-md-5">
+                                    <div class="cart-page-total">
+                                       <h2>Cart totals</h2>
+                                       <ul class="mb-20">
+                                        <li>Subtotal <span style="font-weight: bold; color: #333;">Rs {{ cart_total_amount }}</span></li>
+                                        {% if cart_total_amount > 2999 %}
+                                            <li>Shipment Charges <span style="font-weight: bold; color: green;">Free Shipment</span></li>
+                                            <li>Order Total <span style="font-size: 20px; font-weight: bold; color: #007bff;">Rs {{ cart_total_amount }}</span></li>
+                                        {% else %}
+                                            <li>Shipment Charges <span style="font-weight: bold; color: red;">Rs 200</span></li>
+                                            <li>Order Total <span style="font-size: 20px; font-weight: bold; color: #dc3545;">Rs {{ cart_total_amount|add:200 }}</span></li>
+                                        {% endif %}
+                                    </ul>
+                                    
+                                       <a class="tp-btn-h1" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                    </div>
+                              </div>
+                           </div>
+                        </form>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- cart-area-end -->
+
+       
+
+    </main>
+
+{% endblock %}
