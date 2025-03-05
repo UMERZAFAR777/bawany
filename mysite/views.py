@@ -150,7 +150,8 @@ def cart(request):
 
 
 from django.contrib.auth.decorators import login_required
-from cart.cart import Cart
+from my_cart.cart.cart import Cart
+
 
 
 @login_required(login_url="/accounts/login/")
