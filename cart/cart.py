@@ -23,7 +23,7 @@ class Cart(object):
         newItem = True
         if str(product.id) not in self.cart.keys():
 
-           self.cart[product.id] = {
+            self.cart[product.id] = {
                 'userid': self.request.user.id,
                 'product_id': id,
                 'product_name': product.product_name,
